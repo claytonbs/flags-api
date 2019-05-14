@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ShowFlag from "./ShowFlag";
 
 const Main = () => {
   const [flags, setFlags] = useState([]);
@@ -32,6 +33,7 @@ const Main = () => {
       <p>{selectedFlag.name}</p>
 
       <button onClick={handleNewFlag}>New flag</button>
+      <ShowFlag flag={selectedFlag.flag} />
     </div>
   );
 };
