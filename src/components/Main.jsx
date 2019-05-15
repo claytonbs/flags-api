@@ -1,39 +1,69 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ShowFlag from "./ShowFlag";
+import Choices from "./Choices";
+
+import "./Main.css";
 
 const Main = () => {
-  const [flags, setFlags] = useState([]);
-  const [selectedFlag, setSelectedFlag] = useState({});
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState({});
+  const [choicesList, setChoiceList] = useState([]);
+  const [userChoice, setUserChoice] = useState("");
 
   useEffect(() => {
-    async function getFlags() {
+    async function getCountries() {
       try {
         const response = await axios.get(
           "https://restcountries.eu/rest/v2/all"
         );
 
-        setFlags(response.data);
+        setCountries(response.data);
         console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     }
-    getFlags();
+    getCountries();
   }, []);
 
-  const handleNewFlag = () => {
-    const randomFlag = Math.floor(Math.random() * 249);
-    console.log(flags);
-    setSelectedFlag(flags[randomFlag]);
+  const handleUserChoice = choice => {
+    setUserChoice(choice);
+  };
+
+  const chooseRightCountry = () => {
+    const randomCountry = Math.floor(Math.random() * countries.length - 1);
+
+    setSelectedCountry(countries[randomCountry]);
+    return countries[randomCountry].name;
+  };
+
+  const handleNewCountry = () => {
+    setUserChoice("");
+
+    const choicesList = [];
+    const fakeCountriesNumber = 4;
+    for (let i = 0; i < fakeCountriesNumber; i++) {
+      const fakeRandomCountry = Math.floor(
+        Math.random() * countries.length - 1
+      );
+      choicesList.push(countries[fakeRandomCountry].name);
+    }
+    choicesList.push(chooseRightCountry());
+    setChoiceList(choicesList);
   };
 
   return (
     <div>
-      <p>{selectedFlag.name}</p>
+      <p>{selectedCountry.name}</p>
 
-      <button onClick={handleNewFlag}>New flag</button>
-      <ShowFlag flag={selectedFlag.flag} />
+      <button onClick={handleNewCountry}>New country</button>
+      <Choices
+        choicesList={choicesList}
+        onUserChoice={handleUserChoice}
+        userChoice={userChoice}
+      />
+      <ShowFlag flag={selectedCountry.flag} />
     </div>
   );
 };

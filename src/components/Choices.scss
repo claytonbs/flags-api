@@ -1,0 +1,22 @@
+@import "./variables.scss";
+
+.choice-list {
+  display: flex;
+  justify-content: space-evenly;
+
+  &__li {
+    list-style-type: none;
+  }
+
+  &__label {
+    font-size: $default-font-size;
+    cursor: pointer;
+  }
+  &__radio {
+    display: none;
+  }
+
+  &__radio:checked + &__label {
+    color: blue;
+  }
+}
