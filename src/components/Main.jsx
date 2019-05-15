@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ShowFlag from "./ShowFlag";
 import Choices from "./Choices";
+import MsgDisplay from "./MsgDisplay";
 
 import "./Main.css";
 
@@ -10,6 +11,7 @@ const Main = () => {
   const [selectedCountry, setSelectedCountry] = useState({});
   const [choicesList, setChoiceList] = useState([]);
   const [userChoice, setUserChoice] = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     async function getCountries() {
@@ -28,11 +30,17 @@ const Main = () => {
   }, []);
 
   const handleUserChoice = choice => {
+    console.log(choice, selectedCountry);
     setUserChoice(choice);
+    if (choice === selectedCountry.name) {
+      setMessage("Right answer!");
+    } else {
+      setMessage("Wrong answer!");
+    }
   };
 
   const chooseRightCountry = () => {
-    const randomCountry = Math.floor(Math.random() * countries.length - 1);
+    const randomCountry = Math.floor(Math.random() * (countries.length - 1));
 
     setSelectedCountry(countries[randomCountry]);
     return countries[randomCountry].name;
@@ -45,8 +53,9 @@ const Main = () => {
     const fakeCountriesNumber = 4;
     for (let i = 0; i < fakeCountriesNumber; i++) {
       const fakeRandomCountry = Math.floor(
-        Math.random() * countries.length - 1
+        Math.random() * (countries.length - 1)
       );
+      console.log(fakeRandomCountry);
       choicesList.push(countries[fakeRandomCountry].name);
     }
     choicesList.push(chooseRightCountry());
@@ -64,6 +73,7 @@ const Main = () => {
         userChoice={userChoice}
       />
       <ShowFlag flag={selectedCountry.flag} />
+      <MsgDisplay message={message} size="big" />
     </div>
   );
 };
