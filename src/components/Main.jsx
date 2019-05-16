@@ -4,7 +4,8 @@ import ShowFlag from "./ShowFlag";
 import Choices from "./Choices";
 import MsgDisplay from "./MsgDisplay";
 
-import "./Main.css";
+import "./Main.scss";
+//import { truncate } from "fs";
 
 const Main = () => {
   const [countries, setCountries] = useState([]);
@@ -12,6 +13,8 @@ const Main = () => {
   const [choicesList, setChoiceList] = useState([]);
   const [userChoice, setUserChoice] = useState("");
   const [message, setMessage] = useState("");
+  const [points, setPoints] = useState(0);
+  const [round, setRound] = useState(0);
 
   useEffect(() => {
     async function getCountries() {
@@ -30,10 +33,11 @@ const Main = () => {
   }, []);
 
   const handleUserChoice = choice => {
-    console.log(choice, selectedCountry);
     setUserChoice(choice);
+
     if (choice === selectedCountry.name) {
       setMessage("Right answer!");
+      setPoints(points + 1);
     } else {
       setMessage("Wrong answer!");
     }
@@ -46,9 +50,17 @@ const Main = () => {
     return countries[randomCountry].name;
   };
 
-  const handleNewCountry = () => {
+  const handleNextCountry = () => {
+    if (userChoice === "" && round > 0) {
+      setMessage("You must choose a country");
+      return;
+    }
+    setRound(round + 1);
     setUserChoice("");
+    setChoiceList(makeRandomList());
+  };
 
+  const makeRandomList = () => {
     const choicesList = [];
     const fakeCountriesNumber = 4;
     for (let i = 0; i < fakeCountriesNumber; i++) {
@@ -59,19 +71,36 @@ const Main = () => {
       choicesList.push(countries[fakeRandomCountry].name);
     }
     choicesList.push(chooseRightCountry());
-    setChoiceList(choicesList);
+    return choicesList;
+  };
+
+  const checkGameOver = () => {
+    const maxRounds = 5;
+    if (round >= maxRounds) {
+      return true;
+    }
+
+    return false;
   };
 
   return (
     <div>
       <p>{selectedCountry.name}</p>
 
-      <button onClick={handleNewCountry}>New country</button>
       <Choices
         choicesList={choicesList}
+        selectedCountry={selectedCountry}
         onUserChoice={handleUserChoice}
         userChoice={userChoice}
       />
+      <button
+        disabled={checkGameOver()}
+        className="btn-next"
+        onClick={handleNextCountry}
+      >
+        Next country
+      </button>
+      <MsgDisplay message={`Points: ${points}`} size="medium" />
       <ShowFlag flag={selectedCountry.flag} />
       <MsgDisplay message={message} size="big" />
     </div>

@@ -11,12 +11,25 @@
   &__label {
     font-size: $default-font-size;
     cursor: pointer;
+    padding: 0.5rem 0.7rem;
   }
+
+  &__label:hover {
+    background-color: $color-primary;
+    color: $color-light;
+  }
+
   &__radio {
     display: none;
   }
 
-  &__radio:checked + &__label {
-    color: blue;
+  &__radio:checked + &__label-right {
+    background-color: green;
+    color: $color-light;
+  }
+
+  &__radio:checked + &__label-wrong {
+    background-color: red;
+    color: $color-light;
   }
 }

@@ -1,5 +1,13 @@
 @import "./variables.scss";
 
-.msg-big {
-  font-size: $big-font-size;
+.msg {
+  text-align: center;
+
+  &-big {
+    font-size: $big-font-size;
+  }
+
+  &-medium {
+    font-size: $medium-font-size;
+  }
 }

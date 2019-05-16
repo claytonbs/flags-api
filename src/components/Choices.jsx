@@ -11,6 +11,14 @@ const Choices = props => {
     return false;
   };
 
+  const getClass = country => {
+    if (country === props.selectedCountry.name) {
+      return "choice-list__label-right";
+    } else {
+      return "choice-list__label-wrong";
+    }
+  };
+
   return (
     <div>
       <form className="choice-list">
@@ -18,6 +26,7 @@ const Choices = props => {
           return (
             <li key={index} className="choice-list__li">
               <input
+                disabled={props.userChoice ? true : false}
                 className="choice-list__radio"
                 type="radio"
                 name="country"
@@ -28,7 +37,10 @@ const Choices = props => {
                 }}
                 checked={getCheckedStatus(country)}
               />
-              <label htmlFor={country} className="choice-list__label">
+              <label
+                htmlFor={country}
+                className={`choice-list__label ${getClass(country)}`}
+              >
                 {country}
               </label>
             </li>
