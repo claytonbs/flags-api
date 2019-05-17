@@ -26,7 +26,7 @@ const Choices = props => {
           return (
             <li key={index} className="choice-list__li">
               <input
-                disabled={props.userChoice ? true : false}
+                disabled={props.userChoice || props.checkGameOver()}
                 className="choice-list__radio"
                 type="radio"
                 name="country"

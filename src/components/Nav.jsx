@@ -4,16 +4,25 @@ import "./Nav.scss";
 
 const Nav = props => {
   return (
-    <nav>
+    <nav className="nav">
       <ul className="nav-container">
-        <li className="nav-container__item">New game</li>
+        <NavLink to="#">
+          <li onClick={props.onNewGame} className="nav-container__item">
+            New game
+          </li>
+        </NavLink>
         <NavLink to="/ranking">
-          {" "}
           <li className="nav-container__item">Ranking</li>
         </NavLink>
         <NavLink to="/">
           <li className="nav-container__item">Back</li>
         </NavLink>
+      </ul>
+
+      <ul className="nav-container">
+        <li className="nav-container__item nav-container__info">{`Points: ${
+          props.points
+        }`}</li>
       </ul>
     </nav>
   );
