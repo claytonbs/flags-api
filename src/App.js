@@ -5,6 +5,8 @@ import axios from "axios";
 import Nav from "./components/Nav";
 import Main from "./components/Main";
 import Ranking from "./components/Ranking";
+import RankingForm from "./components/RankingForm";
+import Btn from "./components/Btn";
 
 import "./App.scss";
 
@@ -18,6 +20,8 @@ function App() {
   const [points, setPoints] = useState(0);
   const [round, setRound] = useState(0);
   const [maxRounds, setMaxRounds] = useState(5);
+  const [ranking, setRanking] = useState([]);
+  const [rankingFormVisible, setRankingFormVisible] = useState(false);
 
   useEffect(() => {
     console.log("triggered");
@@ -34,6 +38,9 @@ function App() {
     }
     getCountries();
   }, []);
+
+  // temporary
+  const updateRanking = newEntry => {};
 
   const handleUserChoice = choice => {
     setUserChoice(choice);
@@ -88,39 +95,62 @@ function App() {
   };
 
   const checkGameOver = () => {
+    console.log("check game over");
     if (round > maxRounds) {
-      setMessage("Game is over");
+      if (message !== "Game is over") {
+        setMessage("Game is over");
+      }
       return true;
     }
 
     return false;
   };
 
+  const showRankingForm = () => {
+    console.log(2);
+    setRankingFormVisible(true);
+  };
+  const hidewRankingForm = () => {
+    console.log(1);
+    setRankingFormVisible(false);
+  };
+
   return (
-    <React.Fragment>
-      <Nav onNewGame={handleNewGame} points={points} />
-      <Route
-        exact
-        path="/"
-        component={props => (
-          <Main
-            handleNewGame={handleNewGame}
-            countries={countries}
-            checkGameOver={checkGameOver}
-            handleNextCountry={handleNextCountry}
-            handleUserChoice={handleUserChoice}
-            selectedCountry={selectedCountry}
-            choicesList={choicesList}
-            userChoice={userChoice}
-            message={message}
-            points={points}
-            round={round}
-            maxRounds={maxRounds}
-          />
-        )}
-      />
-      <Route exact path="/ranking" component={Ranking} />
-    </React.Fragment>
+    <section className="app">
+      <div onClick={hidewRankingForm}>
+        <Nav onNewGame={handleNewGame} points={points} />
+        <Route
+          exact
+          path="/"
+          component={props => (
+            <Main
+              handleNewGame={handleNewGame}
+              countries={countries}
+              checkGameOver={checkGameOver}
+              handleNextCountry={handleNextCountry}
+              handleUserChoice={handleUserChoice}
+              selectedCountry={selectedCountry}
+              choicesList={choicesList}
+              userChoice={userChoice}
+              message={message}
+              points={points}
+              round={round}
+              maxRounds={maxRounds}
+              showRankingForm={showRankingForm}
+            />
+          )}
+        />
+
+        <Route exact path="/ranking" component={Ranking} />
+      </div>
+      {checkGameOver() && (
+        <Btn content="Put your name in the ranking" onClick={showRankingForm} />
+      )}
+      <div>{rankingFormVisible && <RankingForm />}</div>
+      <div>
+        <RankingForm points={points} updateRanking={updateRanking} />
+      </div>
+    </section>
   );
 }
 

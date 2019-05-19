@@ -3,6 +3,7 @@ import axios from "axios";
 import ShowFlag from "./ShowFlag";
 import Choices from "./Choices";
 import MsgDisplay from "./MsgDisplay";
+import Btn from "./Btn";
 
 import "./Main.scss";
 
@@ -14,7 +15,6 @@ const Main = props => {
   return (
     <div>
       <p>{props.selectedCountry.name}</p>
-
       <Choices
         checkGameOver={props.checkGameOver}
         choicesList={props.choicesList}
@@ -22,13 +22,8 @@ const Main = props => {
         onUserChoice={props.handleUserChoice}
         userChoice={props.userChoice}
       />
-      <button
-        disabled={props.checkGameOver()}
-        className="btn-next"
-        onClick={props.handleNextCountry}
-      >
-        Next country
-      </button>
+      <Btn content="Next country" onClick={props.handleNextCountry} />
+
       <MsgDisplay
         message={
           props.round > props.maxRounds
@@ -37,7 +32,7 @@ const Main = props => {
         }
         size="medium"
       />
-      <ShowFlag flag={props.selectedCountry.flag} />
+      {props.checkGameOver() || <ShowFlag flag={props.selectedCountry.flag} />}
       <MsgDisplay message={props.message} size="big" />
     </div>
   );
