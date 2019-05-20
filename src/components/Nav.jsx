@@ -6,7 +6,7 @@ const Nav = props => {
   return (
     <nav className="nav">
       <ul className="nav-container">
-        <NavLink to="#">
+        <NavLink to="/">
           <li onClick={props.onNewGame} className="nav-container__item">
             New game
           </li>
