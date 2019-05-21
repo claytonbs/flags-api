@@ -12,10 +12,16 @@ const GameOver = props => {
       />
       <MsgDisplay message={props.message} size="big" />
 
-      <Btn
-        content="Put your name in the ranking"
-        onClick={props.showRankingForm}
-      />
+      {props.rankingSubmitted || (
+        <Btn
+          content="Put your name in the ranking"
+          onClick={props.showRankingForm}
+        />
+      )}
+
+      {props.rankingSubmitted && (
+        <Btn content="Play again?" onClick={props.handleNewGame} />
+      )}
 
       <div>
         {props.rankingFormVisible && (
@@ -23,6 +29,7 @@ const GameOver = props => {
             points={props.points}
             hideRankingForm={props.hidewRankingForm}
             updateRanking={props.updateRanking}
+            rankingSubmitted={props.rankingSubmitted}
           />
         )}
       </div>

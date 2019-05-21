@@ -1,0 +1,36 @@
+@import "./variables.scss";
+
+.spinner {
+  width: 10rem;
+  margin: 2rem auto;
+  position: relative;
+  &-container {
+    height: 10rem;
+    width: 10rem;
+    border-top: 1.2rem solid $color-primary;
+    border-bottom: 1.2rem solid $color-primary;
+    border-left: 1.2rem solid $color-medium;
+    border-right: 1.2rem solid $color-medium;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+  }
+
+  &-caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -80%);
+    font-size: 1.4rem;
+    text-align: center;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  from {
+    transform: rotate(-360deg);
+  }
+}

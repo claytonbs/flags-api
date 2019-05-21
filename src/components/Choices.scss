@@ -1,35 +1,40 @@
 @import "./variables.scss";
 
-.choice-list {
-  display: flex;
-  justify-content: space-evenly;
+.choices {
+  margin: 1rem 0 2rem 0;
 
-  &__li {
-    list-style-type: none;
-  }
+  &__list {
+    display: flex;
+    justify-content: space-evenly;
 
-  &__label {
-    font-size: $default-font-size;
-    cursor: pointer;
-    padding: 0.5rem 0.7rem;
-  }
+    &-li {
+      list-style-type: none;
+    }
 
-  &__label:hover {
-    background-color: $color-primary;
-    color: $color-light;
-  }
+    &-label {
+      font-size: $default-font-size;
+      cursor: pointer;
+      padding: 0.5rem 0.7rem;
+    }
 
-  &__radio {
-    display: none;
-  }
+    &-label:hover {
+      background-color: $color-primary;
+      color: $color-light;
+    }
 
-  &__radio:checked + &__label-right {
-    background-color: green;
-    color: $color-light;
-  }
+    &-radio {
+      display: none;
+    }
 
-  &__radio:checked + &__label-wrong {
-    background-color: red;
-    color: $color-light;
+    &-radio:checked + &-label-right,
+    .correct {
+      background-color: $color-success;
+      color: $color-light;
+    }
+
+    &-radio:checked + &-label-wrong {
+      background-color: $color-fail;
+      color: $color-light;
+    }
   }
 }

@@ -3,31 +3,26 @@ import "./Choices.scss";
 
 const Choices = props => {
   const getCheckedStatus = country => {
-    console.log(country, props.userChoice);
-    if (country === props.userChoice) {
-      return true;
-    }
-
-    return false;
+    return country === props.userChoice ? true : false;
   };
 
   const getClass = country => {
-    if (country === props.selectedCountry.name) {
-      return "choice-list__label-right";
-    } else {
-      return "choice-list__label-wrong";
+    if (props.userChoice) {
+      return country === props.selectedCountry.name
+        ? "choices__list-label-right correct"
+        : "choices__list-label-wrong";
     }
   };
 
   return (
-    <div>
-      <form className="choice-list">
+    <section className="choices">
+      <form className="choices__list">
         {props.choicesList.map((country, index) => {
           return (
-            <li key={index} className="choice-list__li">
+            <li key={index} className="choices__list-li">
               <input
                 disabled={props.userChoice || props.checkGameOver()}
-                className="choice-list__radio"
+                className="choices__list-radio"
                 type="radio"
                 name="country"
                 id={country}
@@ -39,7 +34,7 @@ const Choices = props => {
               />
               <label
                 htmlFor={country}
-                className={`choice-list__label ${getClass(country)}`}
+                className={`choices__list-label ${getClass(country)} `}
               >
                 {country}
               </label>
@@ -47,7 +42,7 @@ const Choices = props => {
           );
         })}
       </form>
-    </div>
+    </section>
   );
 };
 export default Choices;

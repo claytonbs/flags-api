@@ -7,7 +7,7 @@ import Btn from "./Btn";
 
 const GameActive = props => {
   props = props.props;
-  console.log(props);
+
   return (
     <div>
       <p>{props.selectedCountry.name}</p>

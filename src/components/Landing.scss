@@ -1,0 +1,120 @@
+@import "./variables.scss";
+
+.landing {
+  width: 100vw;
+  height: 100vw;
+  background-color: $color-black;
+
+  &__container {
+    z-index: 1;
+    position: relative;
+    text-align: center;
+    padding-top: 40vh;
+    animation: fadeIn 4s;
+  }
+
+  &__title {
+    color: $color-light;
+    font-size: 5.2rem;
+    text-shadow: 1rem 1rem 1rem $color-black;
+  }
+
+  &__btn {
+    height: 4rem;
+    width: 20rem;
+    border-radius: 2rem;
+    display: block;
+    margin: 1rem auto;
+    font-size: $default-font-size;
+    cursor: pointer;
+    background-color: $color-primary;
+    color: $color-light;
+    padding: 1rem 1.5rem;
+    outline: none;
+    border: none;
+    box-shadow: 0 2px 3px $color-dark;
+    border-bottom: 3px solid transparent;
+
+    &:focus {
+      border-bottom: 3px solid $color-primary-dark;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 3px $color-dark;
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+  }
+
+  &__slideshow {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    list-style: none;
+  }
+
+  &__slideshow li {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    opacity: 0;
+    z-index: 0;
+    animation: imageAnimation 50s linear infinite;
+
+    &:nth-child(1) {
+      background-image: url(/img/brazilpb.jpg);
+    }
+    &:nth-child(2) {
+      background-image: url(/img/francepb.jpg);
+      animation-delay: 10s;
+    }
+    &:nth-child(3) {
+      background-image: url(/img/germanpb.jpg);
+      animation-delay: 20s;
+    }
+    &:nth-child(4) {
+      background-image: url(/img/ukpb.jpg);
+      animation-delay: 30s;
+    }
+    &:nth-child(5) {
+      background-image: url(/img/italypb.jpg);
+      animation-delay: 40s;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes imageAnimation {
+  0% {
+    opacity: 0;
+    animation-timing-function: ease-in;
+  }
+  10% {
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+  }
+}

@@ -5,6 +5,7 @@ import axios from "axios";
 import Nav from "./Nav";
 import Main from "./Main";
 import Ranking from "./Ranking";
+import Spinner from "./Spinner";
 
 function Game() {
   const [countries, setCountries] = useState([]);
@@ -16,8 +17,9 @@ function Game() {
   const [points, setPoints] = useState(0);
   const [round, setRound] = useState(0);
   const [maxRounds, setMaxRounds] = useState(5);
-  const [ranking, setRanking] = useState([]);
+
   const [rankingFormVisible, setRankingFormVisible] = useState(false);
+  const [rankingSubmitted, setRankingSubmitted] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -34,8 +36,8 @@ function Game() {
   }, []);
 
   // temporary
-  const updateRanking = newEntry => {
-    setRanking([...ranking, newEntry]);
+  const updateRanking = () => {
+    setRankingSubmitted(true);
   };
 
   const handleUserChoice = choice => {
@@ -79,10 +81,15 @@ function Game() {
       choicesList.push(countries[fakeRandomCountry].name);
     }
     choicesList.push(chooseRightCountry());
+    choicesList.sort(function() {
+      return 0.5 - Math.random();
+    });
     return choicesList;
   };
 
   const handleNewGame = () => {
+    setMessage("Which country this flag belongs?");
+    setRankingSubmitted(false);
     setRound(1);
     setPoints(0);
     setUserChoice("");
@@ -90,8 +97,13 @@ function Game() {
     setChoiceList(makeRandomList());
   };
 
+  useEffect(() => {
+    if (countries.length > 0) {
+      handleNewGame();
+    }
+  }, [countries]);
+
   const checkGameOver = () => {
-    console.log("check game over");
     if (round > maxRounds) {
       if (message !== "Game is over") {
         setMessage("Game is over");
@@ -134,11 +146,14 @@ function Game() {
               showRankingForm={showRankingForm}
               hidewRankingForm={hidewRankingForm}
               updateRanking={updateRanking}
+              rankingSubmitted={rankingSubmitted}
             />
           )}
         />
 
         <Route exact path="/ranking" component={props => <Ranking />} />
+
+        {countries.length === 0 && <Spinner />}
       </div>
     </section>
   );

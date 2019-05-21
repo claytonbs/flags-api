@@ -1,11 +1,23 @@
 import React from "react";
+import "./Landing.scss";
 
 const Landing = props => {
   return (
-    <div>
-      <h1>Landing page</h1>
-      <button onClick={props.startGame}>Start game</button>
-    </div>
+    <section className="landing">
+      <div className="landing__container">
+        <h1 className="landing__title">Do you know the flags?</h1>
+        <button className="landing__btn" onClick={props.startGame}>
+          Start game
+        </button>
+      </div>
+      <ul className="landing__slideshow">
+        <li />
+        <li />
+        <li />
+        <li />
+        <li />
+      </ul>
+    </section>
   );
 };
 

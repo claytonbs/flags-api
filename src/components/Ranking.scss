@@ -41,4 +41,22 @@
   &-data {
     padding: 1rem 1rem;
   }
+
+  &-pagination {
+    margin-top: 2.2rem;
+    display: flex;
+    list-style: none;
+    font-size: 1.5rem;
+  }
+
+  &-page {
+    margin-right: 1rem;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+  }
+}
+
+.active {
+  background-color: $color-primary;
+  color: $color-light;
 }

@@ -4,19 +4,49 @@ import "./Ranking.scss";
 
 const Ranking = () => {
   const [ranking, setRanking] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
     (async () => {
       console.log("fetch ranking");
       try {
         const response = await axios.get("http://localhost:3000/api");
-
+        response.data.sort((a, b) => b.points - a.points);
+        response.data.forEach((player, index) => (player.position = index + 1));
         setRanking(response.data);
       } catch (error) {
         console.error(error);
       }
     })();
   }, []);
+
+  //pagination
+  const entriesPerPage = 5;
+  const numberOfPages = Math.ceil(ranking.length / entriesPerPage);
+  const pageCalc = (pageNumber - 1) * entriesPerPage;
+  const rankingPagination = [];
+
+  for (let i = pageCalc; i < pageCalc + entriesPerPage; i++) {
+    if (ranking[i]) {
+      rankingPagination.push(ranking[i]);
+    }
+  }
+  const pageIndex = [];
+  for (let i = 1; i <= numberOfPages; i++) {
+    pageIndex.push(i);
+  }
+
+  const handlePagination = page => {
+    setPageNumber(page);
+  };
+
+  const getActiveClass = page => {
+    if (page === pageNumber) {
+      return " active";
+    } else {
+      return null;
+    }
+  };
 
   return (
     <section className="ranking">
@@ -31,10 +61,10 @@ const Ranking = () => {
           </tr>
         </thead>
         <tbody className="ranking-body">
-          {ranking.map((entry, index) => {
+          {rankingPagination.map((entry, index) => {
             return (
               <tr key={index} className="ranking-row">
-                <td className="ranking-data">{index + 1}</td>
+                <td className="ranking-data">{entry.position}</td>
                 <td className="ranking-data">{entry.firstName}</td>
                 <td className="ranking-data">{entry.lastName}</td>
                 <td className="ranking-data">{entry.points}</td>
@@ -43,6 +73,18 @@ const Ranking = () => {
           })}
         </tbody>
       </table>
+
+      <ul className="ranking-pagination">
+        {pageIndex.map(page => (
+          <li
+            key={page}
+            className={`ranking-page ${getActiveClass(page)}`}
+            onClick={() => handlePagination(page)}
+          >
+            {page}
+          </li>
+        ))}
+      </ul>
     </section>
   );
 };
