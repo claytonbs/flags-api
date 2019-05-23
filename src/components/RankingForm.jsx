@@ -14,7 +14,7 @@ const RankingForm = props => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/api", newEntry);
+      await axios.post("http://localhost:3005/api", newEntry);
 
       props.formSubmit();
     } catch (error) {
