@@ -1,12 +1,10 @@
 import React from "react";
 import "./ShowFlag.scss";
 
-const ShowFlag = props => {
+const ShowFlag = ({ flag }) => {
   return (
     <div className="flag-container">
-      {props.flag && (
-        <img className="flag-img" src={props.flag} alt="Country flag" />
-      )}
+      {flag && <img className="flag-img" src={flag} alt="Country flag" />}
     </div>
   );
 };

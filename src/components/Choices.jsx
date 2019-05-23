@@ -3,7 +3,6 @@ import "./Choices.scss";
 
 const Choices = props => {
   const getCheckedStatus = country => {
-    console.log(props.game.userChoice);
     return country === props.game.userChoice ? true : false;
   };
 
@@ -26,18 +25,18 @@ const Choices = props => {
                 className="choices__list-radio"
                 type="radio"
                 name="country"
-                id={country}
+                id={country.name}
                 value={country}
                 onChange={() => {
-                  props.onUserChoice(country);
+                  props.onUserChoice(country.name);
                 }}
-                checked={getCheckedStatus(country)}
+                checked={getCheckedStatus(country.name)}
               />
               <label
-                htmlFor={country}
-                className={`choices__list-label ${getClass(country)} `}
+                htmlFor={country.name}
+                className={`choices__list-label ${getClass(country.name)} `}
               >
-                {country}
+                {country.name}
               </label>
             </li>
           );

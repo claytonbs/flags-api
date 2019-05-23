@@ -6,7 +6,7 @@ const Landing = props => {
     <section className="landing">
       <div className="landing__container">
         <h1 className="landing__title">Do you know the flags?</h1>
-        <button className="landing__btn" onClick={props.startGame}>
+        <button className="landing__btn" onClick={props.onStartGame}>
           Start game
         </button>
       </div>

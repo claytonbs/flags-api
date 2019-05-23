@@ -10,7 +10,6 @@ import Spinner from "./Spinner";
 function Game() {
   const [game, setGame] = useState({
     countries: [],
-
     choicesList: { selectedCountry: {}, choicesCountries: [] },
     userChoice: "",
     message: "",
@@ -20,6 +19,7 @@ function Game() {
   });
 
   const handleNewGame = () => {
+    //reset game states needed for new game
     setGame({
       ...game,
       message: "Which country this flag belongs?",
@@ -31,39 +31,36 @@ function Game() {
     });
   };
 
+  // create a array with a list of 5 random countries
   const makeRandomList = () => {
     const choicesCountries = [];
-    const fakeCountriesNumber = 4;
+    const sizeOfChoicesList = 5;
 
-    for (let i = 0; i < fakeCountriesNumber; i++) {
+    for (let i = 0; i < sizeOfChoicesList; i++) {
       const fakeRandomCountry = Math.floor(
         Math.random() * (game.countries.length - 1)
       );
 
-      choicesCountries.push(game.countries[fakeRandomCountry].name);
+      choicesCountries.push(game.countries[fakeRandomCountry]);
     }
 
-    const selectedCountry = chooseRightCountry();
-    choicesCountries.push(selectedCountry.name);
+    // select the first country in the array to be the correct answer
+    const selectedCountry = choicesCountries[0];
+
+    // scramble the countries list
     choicesCountries.sort(function() {
       return 0.5 - Math.random();
     });
+
+    // return the list of 5 countries plus a object
+    // that contain all data about the correct country
     return {
       selectedCountry: { ...selectedCountry },
       choicesCountries: [...choicesCountries]
     };
   };
 
-  const chooseRightCountry = () => {
-    const randomCountry = Math.floor(
-      Math.random() * (game.countries.length - 1)
-    );
-    const rightCountry = { ...game.countries[randomCountry] };
-
-    console.log(game);
-    return rightCountry;
-  };
-
+  // test if the user's answer is correct
   const handleUserChoice = choice => {
     if (choice === game.choicesList.selectedCountry.name) {
       setGame({
@@ -77,6 +74,7 @@ function Game() {
     }
   };
 
+  // handle the button to call the next country
   const handleNextCountry = () => {
     if (game.userChoice === "" && game.round > 0) {
       setGame({ ...game, message: "You must choose a country" });
@@ -138,8 +136,7 @@ function Game() {
             />
           )}
         />
-
-        <Route exact path="/ranking" component={props => <Ranking />} />
+        <Route exact path="/ranking" component={Ranking} />
 
         {game.countries.length === 0 && <Spinner />}
       </div>

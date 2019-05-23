@@ -16,3 +16,9 @@ body {
   height: 100%;
   font-family: Helvetica, Arial, sans-serif;
 }
+
+@media screen and (max-width: 540px) {
+  html {
+    font-size: 61%;
+  }
+}

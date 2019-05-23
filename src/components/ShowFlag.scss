@@ -1,9 +1,18 @@
 .flag-container {
   max-width: 60rem;
-  max-height: 45rem;
+  max-height: 40rem;
   margin: 0 auto;
+  text-align: center;
 }
 
 .flag-img {
-  width: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  max-height: 40rem;
+}
+
+@media screen and (max-width: 540px) {
+  .flag-img {
+    max-height: 20rem;
+  }
 }

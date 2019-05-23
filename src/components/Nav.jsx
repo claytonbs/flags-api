@@ -11,11 +11,13 @@ const Nav = ({ onNewGame, game: { points } }) => {
             New game
           </li>
         </NavLink>
+
+        <NavLink to="/">
+          <li className="nav-container__item">Main</li>
+        </NavLink>
+
         <NavLink to="/ranking">
           <li className="nav-container__item">Ranking</li>
-        </NavLink>
-        <NavLink to="/">
-          <li className="nav-container__item">Back</li>
         </NavLink>
       </ul>
 

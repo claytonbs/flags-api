@@ -8,7 +8,6 @@ const Ranking = () => {
 
   useEffect(() => {
     (async () => {
-      console.log("fetch ranking");
       try {
         const response = await axios.get("http://localhost:3000/api");
         response.data.sort((a, b) => b.points - a.points);

@@ -5,7 +5,6 @@ import "./RankingForm.scss";
 import { NavLink } from "react-router-dom";
 
 const RankingForm = props => {
-  //const [submitted, setSubmitted] = useState(false);
   const [newEntry, setNewEntry] = useState({
     firstName: "",
     lastName: "",
@@ -17,7 +16,6 @@ const RankingForm = props => {
     try {
       await axios.post("http://localhost:3000/api", newEntry);
 
-      //setSubmitted(true);
       props.formSubmit();
     } catch (error) {
       console.error(error);
@@ -30,7 +28,12 @@ const RankingForm = props => {
         <div className="form-container-thanks">
           <h2 className="form-thanks">Thank you, {newEntry.firstName} </h2>
           <NavLink to="/ranking">
-            <i onClick={props.hideRankingForm}>
+            <i
+              onClick={() => {
+                props.hideRankingForm();
+                props.onNewGame();
+              }}
+            >
               <Btn content="Show ranking" />
             </i>
           </NavLink>
