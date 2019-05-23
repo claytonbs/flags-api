@@ -3,12 +3,13 @@ import "./Choices.scss";
 
 const Choices = props => {
   const getCheckedStatus = country => {
-    return country === props.userChoice ? true : false;
+    console.log(props.game.userChoice);
+    return country === props.game.userChoice ? true : false;
   };
 
   const getClass = country => {
-    if (props.userChoice) {
-      return country === props.selectedCountry.name
+    if (props.game.userChoice) {
+      return country === props.game.choicesList.selectedCountry.name
         ? "choices__list-label-right correct"
         : "choices__list-label-wrong";
     }
@@ -17,11 +18,11 @@ const Choices = props => {
   return (
     <section className="choices">
       <form className="choices__list">
-        {props.choicesList.map((country, index) => {
+        {props.game.choicesList.choicesCountries.map((country, index) => {
           return (
             <li key={index} className="choices__list-li">
               <input
-                disabled={props.userChoice || props.checkGameOver()}
+                disabled={props.game.userChoice || props.checkGameOver()}
                 className="choices__list-radio"
                 type="radio"
                 name="country"

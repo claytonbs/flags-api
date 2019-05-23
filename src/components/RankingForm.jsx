@@ -9,7 +9,7 @@ const RankingForm = props => {
   const [newEntry, setNewEntry] = useState({
     firstName: "",
     lastName: "",
-    points: props.points
+    points: props.game.points
   });
 
   const handleSubmit = async e => {
@@ -18,14 +18,14 @@ const RankingForm = props => {
       await axios.post("http://localhost:3000/api", newEntry);
 
       //setSubmitted(true);
-      props.updateRanking();
+      props.formSubmit();
     } catch (error) {
       console.error(error);
     }
   };
 
   const showform = () => {
-    if (props.rankingSubmitted) {
+    if (props.formSubmitted) {
       return (
         <div className="form-container-thanks">
           <h2 className="form-thanks">Thank you, {newEntry.firstName} </h2>

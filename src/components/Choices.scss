@@ -6,6 +6,7 @@
   &__list {
     display: flex;
     justify-content: space-evenly;
+    text-align: center;
 
     &-li {
       list-style-type: none;
@@ -15,6 +16,7 @@
       font-size: $default-font-size;
       cursor: pointer;
       padding: 0.5rem 0.7rem;
+      border-radius: 3px;
     }
 
     &-label:hover {
@@ -35,6 +37,18 @@
     &-radio:checked + &-label-wrong {
       background-color: $color-fail;
       color: $color-light;
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .choices__list {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    &-label {
+      display: block;
     }
   }
 }

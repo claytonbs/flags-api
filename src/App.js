@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Game from "./components/Game";
 import Landing from "./components/Landing";
 
+import "./App.scss";
+
 function App() {
   const [isRunning, setIsRunning] = useState(false);
 
@@ -11,9 +13,9 @@ function App() {
   };
 
   return (
-    <React.Fragment>
+    <div className="app">
       {isRunning ? <Game /> : <Landing startGame={startGame} />}
-    </React.Fragment>
+    </div>
   );
 }
 

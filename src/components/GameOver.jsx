@@ -1,34 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import MsgDisplay from "./MsgDisplay";
 import Btn from "./Btn";
 import RankingForm from "./RankingForm";
+
 const GameOver = props => {
-  props = props.props;
+  const [formVisible, setFormVisible] = useState(false);
+  const [formSubmitted, setformSubmitted] = useState(false);
+
+  const formSubmit = () => {
+    setformSubmitted(true);
+  };
+
+  const showRankingForm = () => {
+    setFormVisible(true);
+  };
+  const hidewRankingForm = () => {
+    setFormVisible(false);
+  };
+
   return (
     <React.Fragment>
       <MsgDisplay
-        message={`You made ${props.points} of ${props.maxRounds} points`}
+        message={`You made ${props.data.game.points} of ${
+          props.data.game.maxRounds
+        } points`}
         size="medium"
       />
-      <MsgDisplay message={props.message} size="big" />
+      <MsgDisplay message={props.data.game.message} size="big" />
 
-      {props.rankingSubmitted || (
-        <Btn
-          content="Put your name in the ranking"
-          onClick={props.showRankingForm}
-        />
+      {formSubmitted || (
+        <Btn content="Put your name in the ranking" onClick={showRankingForm} />
       )}
 
-      {props.rankingSubmitted && (
-        <Btn content="Play again?" onClick={props.handleNewGame} />
+      {formSubmitted && (
+        <Btn content="Play again?" onClick={props.data.handleNewGame} />
       )}
 
       <div>
-        {props.rankingFormVisible && (
+        {formVisible && (
           <RankingForm
-            points={props.points}
-            hideRankingForm={props.hidewRankingForm}
-            updateRanking={props.updateRanking}
+            game={props.data.game}
+            formSubmitted={formSubmitted}
+            hideRankingForm={hidewRankingForm}
+            formSubmit={formSubmit}
             rankingSubmitted={props.rankingSubmitted}
           />
         )}

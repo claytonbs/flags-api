@@ -2,12 +2,12 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Nav.scss";
 
-const Nav = props => {
+const Nav = ({ onNewGame, game: { points } }) => {
   return (
     <nav className="nav">
       <ul className="nav-container">
         <NavLink to="/">
-          <li onClick={props.onNewGame} className="nav-container__item">
+          <li onClick={onNewGame} className="nav-container__item">
             New game
           </li>
         </NavLink>
@@ -20,9 +20,7 @@ const Nav = props => {
       </ul>
 
       <ul className="nav-container">
-        <li className="nav-container__item nav-container__info">{`Points: ${
-          props.points
-        }`}</li>
+        <li className="nav-container__item nav-container__info">{`Points: ${points}`}</li>
       </ul>
     </nav>
   );

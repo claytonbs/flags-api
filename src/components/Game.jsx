@@ -8,18 +8,98 @@ import Ranking from "./Ranking";
 import Spinner from "./Spinner";
 
 function Game() {
-  const [countries, setCountries] = useState([]);
+  const [game, setGame] = useState({
+    countries: [],
 
-  const [selectedCountry, setSelectedCountry] = useState({});
-  const [choicesList, setChoiceList] = useState([]);
-  const [userChoice, setUserChoice] = useState("");
-  const [message, setMessage] = useState("");
-  const [points, setPoints] = useState(0);
-  const [round, setRound] = useState(0);
-  const [maxRounds, setMaxRounds] = useState(5);
+    choicesList: { selectedCountry: {}, choicesCountries: [] },
+    userChoice: "",
+    message: "",
+    points: 0,
+    round: 0,
+    maxRounds: 5
+  });
 
-  const [rankingFormVisible, setRankingFormVisible] = useState(false);
-  const [rankingSubmitted, setRankingSubmitted] = useState(false);
+  const handleNewGame = () => {
+    setGame({
+      ...game,
+      message: "Which country this flag belongs?",
+      rankingSubmitted: false,
+      round: 1,
+      points: 0,
+      userChoice: "",
+      choicesList: makeRandomList()
+    });
+  };
+
+  const makeRandomList = () => {
+    const choicesCountries = [];
+    const fakeCountriesNumber = 4;
+
+    for (let i = 0; i < fakeCountriesNumber; i++) {
+      const fakeRandomCountry = Math.floor(
+        Math.random() * (game.countries.length - 1)
+      );
+
+      choicesCountries.push(game.countries[fakeRandomCountry].name);
+    }
+
+    const selectedCountry = chooseRightCountry();
+    choicesCountries.push(selectedCountry.name);
+    choicesCountries.sort(function() {
+      return 0.5 - Math.random();
+    });
+    return {
+      selectedCountry: { ...selectedCountry },
+      choicesCountries: [...choicesCountries]
+    };
+  };
+
+  const chooseRightCountry = () => {
+    const randomCountry = Math.floor(
+      Math.random() * (game.countries.length - 1)
+    );
+    const rightCountry = { ...game.countries[randomCountry] };
+
+    console.log(game);
+    return rightCountry;
+  };
+
+  const handleUserChoice = choice => {
+    if (choice === game.choicesList.selectedCountry.name) {
+      setGame({
+        ...game,
+        message: "Right answer",
+        points: game.points + 1,
+        userChoice: choice
+      });
+    } else {
+      setGame({ ...game, message: "Wrong answer!", userChoice: choice });
+    }
+  };
+
+  const handleNextCountry = () => {
+    if (game.userChoice === "" && game.round > 0) {
+      setGame({ ...game, message: "You must choose a country" });
+      return;
+    }
+    setGame({
+      ...game,
+      message: "Which country this flag belongs?",
+      round: game.round + 1,
+      userChoice: "",
+      choicesList: makeRandomList()
+    });
+  };
+
+  const checkGameOver = () => {
+    if (game.round > game.maxRounds) {
+      if (game.message !== "Game is over") {
+        setGame({ ...game, message: "Game is over" });
+      }
+      return true;
+    }
+    return false;
+  };
 
   useEffect(() => {
     (async () => {
@@ -28,132 +108,40 @@ function Game() {
           "https://restcountries.eu/rest/v2/all"
         );
 
-        setCountries(response.data);
+        setGame({ ...game, countries: [...response.data] });
       } catch (error) {
         console.error(error);
       }
     })();
   }, []);
 
-  // temporary
-  const updateRanking = () => {
-    setRankingSubmitted(true);
-  };
-
-  const handleUserChoice = choice => {
-    setUserChoice(choice);
-
-    if (choice === selectedCountry.name) {
-      setMessage("Right answer!");
-      setPoints(points + 1);
-    } else {
-      setMessage("Wrong answer!");
-    }
-  };
-
-  const chooseRightCountry = () => {
-    const randomCountry = Math.floor(Math.random() * (countries.length - 1));
-
-    setSelectedCountry(countries[randomCountry]);
-    return countries[randomCountry].name;
-  };
-
-  const handleNextCountry = () => {
-    if (userChoice === "" && round > 0) {
-      setMessage("You must choose a country");
-      return;
-    }
-    setMessage("Which country this flag belongs?");
-    setRound(round + 1);
-    setUserChoice("");
-    setChoiceList(makeRandomList());
-  };
-
-  const makeRandomList = () => {
-    const choicesList = [];
-    const fakeCountriesNumber = 4;
-
-    for (let i = 0; i < fakeCountriesNumber; i++) {
-      const fakeRandomCountry = Math.floor(
-        Math.random() * (countries.length - 1)
-      );
-
-      choicesList.push(countries[fakeRandomCountry].name);
-    }
-    choicesList.push(chooseRightCountry());
-    choicesList.sort(function() {
-      return 0.5 - Math.random();
-    });
-    return choicesList;
-  };
-
-  const handleNewGame = () => {
-    setMessage("Which country this flag belongs?");
-    setRankingSubmitted(false);
-    setRound(1);
-    setPoints(0);
-    setUserChoice("");
-
-    setChoiceList(makeRandomList());
-  };
-
   useEffect(() => {
-    if (countries.length > 0) {
+    if (game.countries.length > 0) {
       handleNewGame();
     }
-  }, [countries]);
-
-  const checkGameOver = () => {
-    if (round > maxRounds) {
-      if (message !== "Game is over") {
-        setMessage("Game is over");
-      }
-      return true;
-    }
-
-    return false;
-  };
-
-  const showRankingForm = () => {
-    setRankingFormVisible(true);
-  };
-  const hidewRankingForm = () => {
-    setRankingFormVisible(false);
-  };
+  }, [game.countries]);
 
   return (
-    <section className="app">
+    <section className="main-game">
       <div>
-        <Nav onNewGame={handleNewGame} points={points} />
+        <Nav onNewGame={handleNewGame} game={game} />
         <Route
           exact
           path="/"
           component={props => (
             <Main
+              game={game}
               handleNewGame={handleNewGame}
-              countries={countries}
               checkGameOver={checkGameOver}
               handleNextCountry={handleNextCountry}
               handleUserChoice={handleUserChoice}
-              selectedCountry={selectedCountry}
-              choicesList={choicesList}
-              userChoice={userChoice}
-              message={message}
-              points={points}
-              round={round}
-              maxRounds={maxRounds}
-              rankingFormVisible={rankingFormVisible}
-              showRankingForm={showRankingForm}
-              hidewRankingForm={hidewRankingForm}
-              updateRanking={updateRanking}
-              rankingSubmitted={rankingSubmitted}
             />
           )}
         />
 
         <Route exact path="/ranking" component={props => <Ranking />} />
 
-        {countries.length === 0 && <Spinner />}
+        {game.countries.length === 0 && <Spinner />}
       </div>
     </section>
   );

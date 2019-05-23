@@ -6,26 +6,25 @@ import MsgDisplay from "./MsgDisplay";
 import Btn from "./Btn";
 
 const GameActive = props => {
-  props = props.props;
-
   return (
     <div>
-      <p>{props.selectedCountry.name}</p>
+      <p>{props.data.game.choicesList.selectedCountry.name}</p>
       <Choices
-        checkGameOver={props.checkGameOver}
-        choicesList={props.choicesList}
-        selectedCountry={props.selectedCountry}
-        onUserChoice={props.handleUserChoice}
-        userChoice={props.userChoice}
+        checkGameOver={props.data.checkGameOver}
+        selectedCountry={props.data.game.selectedCountry}
+        onUserChoice={props.data.handleUserChoice}
+        game={props.data.game}
       />
-      <Btn content="Next country" onClick={props.handleNextCountry} />
+      <Btn content="Next country" onClick={props.data.handleNextCountry} />
 
       <MsgDisplay
-        message={`Round: ${props.round} / ${props.maxRounds}`}
+        message={`Round: ${props.data.game.round} / ${
+          props.data.game.maxRounds
+        }`}
         size="medium"
       />
-      <ShowFlag flag={props.selectedCountry.flag} />
-      <MsgDisplay message={props.message} size="big" />
+      <ShowFlag flag={props.data.game.choicesList.selectedCountry.flag} />
+      <MsgDisplay message={props.data.game.message} size="big" />
     </div>
   );
 };

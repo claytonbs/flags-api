@@ -98,3 +98,10 @@
     transform: translateY(-4rem);
   }
 }
+
+@media screen and (max-width: 540px) {
+  .ranking-form {
+    max-width: 90%;
+    height: 40rem;
+  }
+}

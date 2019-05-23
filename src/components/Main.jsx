@@ -8,9 +8,9 @@ const Main = props => {
   return (
     <div>
       {props.checkGameOver() ? (
-        <GameOver props={props} />
+        <GameOver data={props} />
       ) : (
-        <GameActive props={props} />
+        <GameActive data={props} />
       )}
     </div>
   );
